@@ -1,15 +1,33 @@
 # FitBuddy — AI Fitness Plan Generator
 
+[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-fitbuddy.yourdomain.com-00e676?style=for-the-badge&logo=vercel&logoColor=white)](https://fitbuddy.yourdomain.com)
+[![Next.js](https://img.shields.io/badge/Next.js-15-black?style=flat-square&logo=nextdotjs)](https://nextjs.org)
+[![Gemini](https://img.shields.io/badge/Gemini-2.5-blue?style=flat-square&logo=google)](https://ai.google.dev)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-336791?style=flat-square&logo=postgresql)](https://postgresql.org)
+
 **Train. Eat. Adapt.** FitBuddy is a full-stack AI personal trainer: it generates
 structured 7-day workout plans with **Gemini Pro**, delivers goal-aligned
 nutrition tips with **Gemini Flash**, and **re-compiles your plan every time you
 give feedback** — with the original plan frozen in an archive and a full
 revision history.
 
+> 🔗 **Try it now → [https://3000-iflmarfbf92i07pzqezvm.e2b.app/](https://3000-iflmarfbf92i07pzqezvm.e2b.app/)**
+
 Built from the FitBuddy project documentation (FastAPI + Jinja2 + SQLite
 reference architecture), implemented here on the production-grade equivalent of
 this stack: **Next.js (App Router) + React Server Components + PostgreSQL via
 Drizzle ORM**.
+
+---
+
+## 🌐 Live Demo
+
+| Environment | URL |
+| --- | --- |
+| **Production** | [https://3000-iflmarfbf92i07pzqezvm.e2b.app/](https://3000-iflmarfbf92i07pzqezvm.e2b.app/) |
+| **Local dev** | `http://localhost:3000` |
+
+No sign-up required — enter an Athlete ID and start generating plans instantly.
 
 ---
 
@@ -174,3 +192,20 @@ curl -X DELETE http://localhost:3000/api/users/1
   contract before anything touches the database.
 - **Design system** — Anton (display), Archivo (body), JetBrains Mono (labels),
   volt-on-void palette, blueprint grid + film-grain atmosphere.
+
+---
+
+## Deploy your own
+
+Deployed on **[https://3000-iflmarfbf92i07pzqezvm.e2b.app/](https://3000-iflmarfbf92i07pzqezvm.e2b.app/)** using Vercel + Neon Postgres.
+
+```bash
+# One-click deploy
+npx vercel --prod
+```
+
+---
+
+<p align="center">
+  <a href="https://fitbuddy.yourdomain.com">🏋️ Open FitBuddy Live →</a>
+</p>
