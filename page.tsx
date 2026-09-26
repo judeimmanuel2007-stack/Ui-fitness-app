@@ -1,286 +1,231 @@
-import {
-  ArrowRight,
-  ArrowUpRight,
-  BrainCircuit,
-  ClipboardList,
-  Cpu,
-  Database,
-  MessagesSquare,
-  RefreshCw,
-  Salad,
-} from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import Marquee from "@/components/marquee";
-import PlanForm from "@/components/plan-form";
+import DeleteUserButton from "@/components/delete-user-button";
 import Reveal from "@/components/reveal";
-import SiteNav from "@/components/site-nav";
+import { db } from "@/db";
+import { plans, users } from "@/db/schema";
+import { INTENSITY_LABELS, isIntensity } from "@/lib/fitness";
+import { desc, eq } from "drizzle-orm";
+import {
+  ArrowLeft,
+  ArrowUpRight,
+  Calendar,
+  Cpu,
+  FileText,
+  MessagesSquare,
+  Salad,
+  ShieldCheck,
+  UserRound,
+} from "lucide-react";
+import type { Metadata } from "next";
+import Link from "next/link";
 
-const STATS = [
-  { value: "7-DAY", label: "Structured training splits" },
-  { value: "02", label: "Gemini models in the loop" },
-  { value: "1:1", label: "Plans adapt to your feedback" },
-];
+export const dynamic = "force-dynamic";
 
-const PROTOCOL_STEPS = [
-  {
-    icon: BrainCircuit,
-    step: "Step 01",
-    title: "Structured generation",
-    body: "Your metrics go straight to Gemini Pro. It returns a schema-locked 7-day split — warm-ups, sets × reps, rest windows, cooldowns. Nothing hand-wavy.",
-  },
-  {
-    icon: Salad,
-    step: "Step 02",
-    title: "Nutrition intel",
-    body: "Gemini Flash fires in parallel with a goal-aligned tip: protein targets, hydration, nutrient timing. Fast, lightweight, immediately actionable.",
-  },
-  {
-    icon: RefreshCw,
-    step: "Step 03",
-    title: "Adaptive revisions",
-    body: "Tell the coach how the week felt. Gemini Pro re-compiles the plan against your feedback and bumps the revision counter — the original stays on file.",
-  },
-];
+export const metadata: Metadata = {
+  title: "Admin — Athlete Registry · FitBuddy",
+};
 
-const FLOW_POINTS = [
-  {
-    icon: ClipboardList,
-    title: "Athlete file created",
-    body: "Your ID is the key — come back any time and pull your plan.",
-  },
-  {
-    icon: Cpu,
-    title: "Two model calls, one click",
-    body: "Pro and Flash fire in parallel. The week lands in seconds.",
-  },
-  {
-    icon: Database,
-    title: "Persisted to Postgres",
-    body: "Plans, tips and every revision — nothing lives in a cookie.",
-  },
-  {
-    icon: MessagesSquare,
-    title: "Talk back to the AI",
-    body: "Each piece of feedback re-compiles the week around you.",
-  },
-];
+const dateFmt = new Intl.DateTimeFormat("en-US", {
+  month: "short",
+  day: "2-digit",
+  hour: "2-digit",
+  minute: "2-digit",
+});
 
-export default function HomePage() {
+export default async function AdminPage() {
+  const rows = await db
+    .select({ user: users, plan: plans })
+    .from(users)
+    .leftJoin(plans, eq(plans.userId, users.id))
+    .orderBy(desc(users.createdAt));
+
   return (
     <div className="min-h-screen">
-      <SiteNav />
+      <header className="border-b border-line">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 sm:px-8">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.2em] text-ash transition-colors hover:text-volt"
+          >
+            <ArrowLeft className="size-4" />
+            Home
+          </Link>
+          <span className="font-display text-lg tracking-wide">
+            FITBUDDY<span className="text-volt">.</span>
+          </span>
+          <Link
+            href="/#generate"
+            className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.2em] text-ash transition-colors hover:text-volt"
+          >
+            Intake
+            <ArrowUpRight className="size-4" />
+          </Link>
+        </div>
+      </header>
 
-      <main>
-        {/* ------------------------------------------------ HERO */}
-        <section className="relative overflow-hidden border-b border-line">
-          <div className="u-blueprint absolute inset-0 [mask-image:linear-gradient(to_bottom,black_30%,transparent_75%)]" />
-          <div className="relative mx-auto grid max-w-7xl lg:grid-cols-12">
-            <div className="col-span-12 px-5 pt-32 pb-14 sm:px-8 lg:col-span-7 lg:pt-44 lg:pb-24">
-              <Reveal>
-                <span className="chip">
-                  <span className="size-1.5 rounded-full bg-volt animate-pulse-dot" />
-                  Google Gemini-powered // Fitness intelligence
-                </span>
-              </Reveal>
-              <Reveal delay={90}>
-                <h1 className="mt-8 font-display text-[clamp(4.5rem,11vw,10.5rem)] uppercase leading-[0.86] tracking-tight">
-                  <span className="block">Train.</span>
-                  <span className="block text-volt">Eat.</span>
-                  <span className="outline-word block">Adapt.</span>
-                </h1>
-              </Reveal>
-              <Reveal delay={180}>
-                <p className="mt-8 max-w-md text-balance text-sm leading-relaxed text-ash sm:text-base">
-                  FitBuddy is a personal trainer that never sleeps. Two Gemini models
-                  build your 7-day workout cycle and nutrition intel — then rebuild the
-                  plan every time you talk back.
-                </p>
-              </Reveal>
-              <Reveal delay={260}>
-                <div className="mt-10 flex flex-wrap items-center gap-4">
-                  <Link href="#generate" className="btn-volt">
-                    Generate my plan
-                    <ArrowRight className="size-4" />
-                  </Link>
-                  <Link href="/admin" className="btn-ghost">
-                    Admin panel
-                    <ArrowUpRight className="size-4" />
-                  </Link>
-                </div>
-              </Reveal>
+      <main className="mx-auto max-w-7xl px-5 pb-24 sm:px-8">
+        <section className="border-b border-line py-12">
+          <Reveal>
+            <p className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.24em] text-volt">
+              <ShieldCheck className="size-3.5" />
+              Admin view // Full registry
+            </p>
+            <h1 className="mt-4 font-display text-6xl uppercase leading-[0.9] sm:text-8xl">
+              Athlete
+              <span className="text-volt"> Registry</span>
+            </h1>
+            <p className="mt-4 max-w-xl text-sm leading-relaxed text-ash">
+              Every user, their original AI plan, feedback-driven revisions and
+              nutrition intel — one transparent control room for coaches and
+              institutions.
+            </p>
+          </Reveal>
+          <Reveal delay={120}>
+            <div className="mt-6 flex flex-wrap gap-2.5">
+              <span className="chip">
+                <UserRound className="size-3" />
+                {rows.length} {rows.length === 1 ? "athlete" : "athletes"} on file
+              </span>
             </div>
-
-            <div className="relative col-span-12 min-h-80 border-t border-line lg:col-span-5 lg:min-h-full lg:border-t-0 lg:border-l">
-              <Image
-                src="/images/hero-gym.jpg"
-                alt="Athlete training under volt-green light in a dark gym"
-                fill
-                priority
-                sizes="(min-width: 1024px) 42vw, 100vw"
-                className="animate-drift object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-void via-transparent to-void/30" />
-              <div className="absolute inset-0 bg-volt/10 mix-blend-overlay" />
-              <p className="absolute bottom-5 left-5 font-mono text-[10px] uppercase tracking-[0.2em] text-bone/70">
-                Athlete // Rim-lit // Day 01
-              </p>
-              <p className="absolute top-5 right-5 font-mono text-[10px] uppercase tracking-[0.2em] text-volt">
-                FB-PROTOCOL v2.6
-              </p>
-            </div>
-          </div>
-
-          <div className="relative border-t border-line bg-void/60">
-            <div className="mx-auto grid max-w-7xl grid-cols-1 divide-y divide-line sm:grid-cols-3 sm:divide-x sm:divide-y-0">
-              {STATS.map((stat) => (
-                <div key={stat.label} className="px-5 py-6 sm:px-8">
-                  <p className="font-mono text-xl font-bold text-volt sm:text-2xl">
-                    {stat.value}
-                  </p>
-                  <p className="mt-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-ash">
-                    {stat.label}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
+          </Reveal>
         </section>
 
-        <Marquee />
-
-        {/* ------------------------------------------------ PROTOCOL */}
-        <section id="protocol" className="scroll-mt-16 border-b border-line">
-          <div className="mx-auto max-w-7xl px-5 py-20 sm:px-8 sm:py-28">
-            <div className="flex flex-col justify-between gap-8 md:flex-row md:items-end">
-              <Reveal>
-                <div>
-                  <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-volt">
-                    System // How it works
-                  </p>
-                  <h2 className="mt-4 font-display text-5xl uppercase leading-[0.92] sm:text-7xl">
-                    The
-                    <br />
-                    Protocol
-                  </h2>
-                </div>
-              </Reveal>
-              <Reveal delay={120}>
-                <p className="max-w-sm text-sm leading-relaxed text-ash">
-                  One model reasons about your training week. A second keeps your fuel
-                  on target. Your feedback closes the loop. That&apos;s the whole protocol —
-                  and it compounds.
-                </p>
-              </Reveal>
-            </div>
-
-            <div className="mt-14 grid gap-px border border-line bg-line md:grid-cols-3">
-              {PROTOCOL_STEPS.map((step, index) => (
-                <Reveal key={step.title} delay={index * 110} className="bg-panel">
-                  <article className="group h-full p-8 transition-colors duration-300 hover:bg-panel-2 sm:p-10">
-                    <span className="grid size-12 place-items-center border border-line text-volt transition-colors duration-300 group-hover:border-volt group-hover:bg-volt group-hover:text-[#0b0d05]">
-                      <step.icon className="size-5" strokeWidth={2} />
-                    </span>
-                    <p className="mt-8 font-mono text-[10px] uppercase tracking-[0.24em] text-ash">
-                      {step.step}
-                    </p>
-                    <h3 className="mt-2 font-display text-2xl uppercase tracking-wide">
-                      {step.title}
-                    </h3>
-                    <p className="mt-4 text-sm leading-relaxed text-ash">{step.body}</p>
-                  </article>
-                </Reveal>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ------------------------------------------------ GENERATOR */}
-        <section id="generate" className="scroll-mt-16 border-b border-line">
-          <div className="mx-auto grid max-w-7xl gap-12 px-5 py-20 sm:px-8 sm:py-28 lg:grid-cols-12 lg:gap-14">
-            <div className="lg:col-span-5">
-              <Reveal>
-                <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-volt">
-                  Intake // Athlete file
-                </p>
-                <h2 className="mt-4 font-display text-5xl uppercase leading-[0.92] sm:text-6xl">
-                  Input
-                  <br />
-                  your
-                  <br />
-                  metrics<span className="text-volt">.</span>
-                </h2>
-              </Reveal>
-              <Reveal delay={110}>
-                <p className="mt-6 max-w-md text-sm leading-relaxed text-ash">
-                  Six fields. That&apos;s all the AI needs to architect a week of
-                  training and fuel that actually fits your body and your schedule.
-                </p>
-              </Reveal>
-              <div className="mt-10 space-y-6">
-                {FLOW_POINTS.map((point, index) => (
-                  <Reveal key={point.title} delay={170 + index * 80}>
-                    <div className="flex items-start gap-4">
-                      <span className="grid size-10 shrink-0 place-items-center border border-line text-volt">
-                        <point.icon className="size-4" strokeWidth={2} />
-                      </span>
-                      <div>
-                        <p className="font-mono text-xs font-bold uppercase tracking-[0.16em] text-bone">
-                          {point.title}
-                        </p>
-                        <p className="mt-1 text-xs leading-relaxed text-ash">
-                          {point.body}
-                        </p>
-                      </div>
-                    </div>
-                  </Reveal>
-                ))}
-              </div>
-            </div>
-
-            <Reveal delay={140} className="lg:col-span-7">
-              <div className="panel">
-                <div className="flex items-center justify-between border-b border-line px-6 py-4">
-                  <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-ash">
-                    Form // Athlete intake
-                  </span>
-                  <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-volt">
-                    ~30 sec
-                  </span>
-                </div>
-                <div className="p-6 sm:p-8">
-                  <PlanForm />
-                </div>
-              </div>
+        {rows.length === 0 ? (
+          <div className="grid place-items-center py-28 text-center">
+            <Reveal>
+              <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-ash">
+                Registry empty
+              </p>
+              <h2 className="mt-4 font-display text-4xl uppercase sm:text-5xl">
+                No athletes yet<span className="text-volt">.</span>
+              </h2>
+              <p className="mx-auto mt-4 max-w-sm text-sm text-ash">
+                Generate the first plan from the intake form and it will appear here
+                with full revision history.
+              </p>
+              <Link href="/#generate" className="btn-volt mt-8">
+                Generate first plan
+                <ArrowUpRight className="size-4" />
+              </Link>
             </Reveal>
           </div>
-        </section>
-      </main>
+        ) : (
+          <ul className="grid gap-5 py-10 lg:grid-cols-2">
+            {rows.map(({ user, plan }, index) => {
+              const intensityLabel = isIntensity(user.intensity)
+                ? INTENSITY_LABELS[user.intensity]
+                : user.intensity;
+              const feedbackCount = plan?.feedbackLog?.length ?? 0;
+              const lastFeedback = feedbackCount
+                ? plan!.feedbackLog[plan!.feedbackLog.length - 1]
+                : null;
+              return (
+                <Reveal key={user.id} delay={Math.min(index, 4) * 70} className="h-full">
+                  <li className="panel flex h-full flex-col">
+                    <div className="flex items-start justify-between gap-4 border-b border-line px-6 py-5">
+                      <div>
+                        <h2 className="font-display text-2xl uppercase tracking-wide">
+                          {user.name}
+                        </h2>
+                        <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.2em] text-ash">
+                          ID // {user.code}
+                        </p>
+                      </div>
+                      <span className="chip shrink-0">
+                        <Calendar className="size-3" />
+                        {dateFmt.format(new Date(user.createdAt))}
+                      </span>
+                    </div>
 
-      {/* ------------------------------------------------ FOOTER */}
-      <footer className="relative overflow-hidden">
-        <div className="mx-auto max-w-7xl px-5 pt-16 pb-8 sm:px-8">
-          <h2
-            aria-hidden
-            className="outline-word text-center font-display text-[clamp(4rem,18vw,17rem)] leading-[0.82] uppercase select-none"
-          >
-            Fitbuddy
-          </h2>
-          <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-line pt-6 font-mono text-[10px] uppercase tracking-[0.18em] text-ash sm:flex-row">
-            <span>© 2026 Fitbuddy Systems</span>
-            <span className="text-center">
-              Gemini Pro × Gemini Flash × Next.js × Postgres
-            </span>
-            <Link
-              href="/admin"
-              className="inline-flex items-center gap-1.5 transition-colors hover:text-volt"
-            >
-              Admin view
-              <ArrowUpRight className="size-3.5" />
-            </Link>
-          </div>
-        </div>
-      </footer>
+                    <div className="flex flex-wrap gap-2 px-6 pt-5">
+                      <span className="chip">{user.goal}</span>
+                      <span className="chip">{intensityLabel}</span>
+                      <span className="chip">Age {user.age}</span>
+                      <span className="chip">{user.weightKg} kg</span>
+                    </div>
+
+                    {plan ? (
+                      <div className="flex flex-1 flex-col gap-4 px-6 py-5">
+                        <div className="flex items-center justify-between gap-3">
+                          <p className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.18em] text-ash">
+                            <FileText className="size-3.5 text-volt" />
+                            {plan.currentPlan.title}
+                          </p>
+                          <span
+                            className={`chip shrink-0 ${
+                              plan.aiSource === "gemini"
+                                ? "border-volt/50 text-volt"
+                                : "border-ember/50 text-ember"
+                            }`}
+                          >
+                            <Cpu className="size-3" />
+                            {plan.aiModel}
+                          </span>
+                        </div>
+
+                        <div className="grid gap-2 border border-line bg-panel-2 px-4 py-3 font-mono text-[10px] uppercase tracking-[0.16em]">
+                          <p className="flex justify-between gap-4">
+                            <span className="text-ash">Original // Rev 00</span>
+                            <span className="text-right text-bone/80">
+                              {plan.originalPlan.title}
+                            </span>
+                          </p>
+                          <p className="flex justify-between gap-4">
+                            <span className="text-ash">
+                              Current // Rev {String(plan.revision).padStart(2, "0")}
+                            </span>
+                            <span className="text-right text-volt">
+                              {plan.currentPlan.title}
+                            </span>
+                          </p>
+                          <p className="flex justify-between gap-4">
+                            <span className="text-ash">Sessions</span>
+                            <span className="text-bone/80">
+                              {plan.currentPlan.days.length} days programmed
+                            </span>
+                          </p>
+                        </div>
+
+                        <p className="flex items-start gap-2 text-xs leading-relaxed text-ash">
+                          <Salad className="mt-0.5 size-3.5 shrink-0 text-volt" />
+                          <span className="line-clamp-3">{plan.nutritionTip}</span>
+                        </p>
+
+                        <p className="flex items-start gap-2 text-xs leading-relaxed text-ash">
+                          <MessagesSquare className="mt-0.5 size-3.5 shrink-0 text-ember" />
+                          {feedbackCount === 0 ? (
+                            "No feedback submitted yet."
+                          ) : (
+                            <span className="line-clamp-2">
+                              {feedbackCount}{" "}
+                              {feedbackCount === 1 ? "revision" : "revisions"} — latest:
+                              &ldquo;{lastFeedback?.feedback}&rdquo;
+                            </span>
+                          )}
+                        </p>
+                      </div>
+                    ) : (
+                      <p className="px-6 py-5 font-mono text-xs uppercase tracking-[0.16em] text-ash">
+                        No plan generated yet.
+                      </p>
+                    )}
+
+                    <div className="flex items-center justify-between gap-3 border-t border-line px-6 py-4">
+                      <Link
+                        href={`/plan/${encodeURIComponent(user.code)}`}
+                        className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-ash transition-colors hover:text-volt"
+                      >
+                        View file
+                        <ArrowUpRight className="size-3.5" />
+                      </Link>
+                      <DeleteUserButton id={user.id} name={user.name} />
+                    </div>
+                  </li>
+                </Reveal>
+              );
+            })}
+          </ul>
+        )}
+      </main>
     </div>
   );
 }
