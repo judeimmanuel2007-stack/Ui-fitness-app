@@ -207,5 +207,5 @@ npx vercel --prod
 ---
 
 <p align="center">
-  <a href="https://fitbuddy.yourdomain.com">🏋️ Open FitBuddy Live →</a>
+  <a href="https://3000-iflmarfbf92i07pzqezvm.e2b.app/">🏋️ Open FitBuddy Live →</a>
 </p>
