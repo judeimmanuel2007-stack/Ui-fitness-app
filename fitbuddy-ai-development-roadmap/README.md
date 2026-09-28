@@ -1,9 +1,23 @@
 # FitBuddy — AI Fitness Plan Generator
 
-[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-3000-iflmarfbf92i07pzqezvm.e2b.app/-00e676?style=for-the-badge&logo=vercel&logoColor=white)](https://3000-iflmarfbf92i07pzqezvm.e2b.app/)
+[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-fitbuddy.yourdomain.com-00e676?style=for-the-badge&logo=vercel&logoColor=white)](https://fitbuddy.yourdomain.com)
 [![Next.js](https://img.shields.io/badge/Next.js-15-black?style=flat-square&logo=nextdotjs)](https://nextjs.org)
 [![Gemini](https://img.shields.io/badge/Gemini-2.5-blue?style=flat-square&logo=google)](https://ai.google.dev)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-336791?style=flat-square&logo=postgresql)](https://postgresql.org)
+
+---
+
+## 👥 Team
+
+| Role | Name | Responsibilities |
+| --- | --- | --- |
+| 🏆 **Team Leader** | **Jude Rosary Immanuel** | Project architecture & system design, Gemini AI integration (`gemini.ts`), prompt engineering & JSON schema locking, code review, CI/CD & production deployment |
+| 💻 **Team Member** | **Shadrack Joseph** | Database schema design (Drizzle ORM + PostgreSQL), API route handlers (`/api/generate`, `/api/feedback`, `/api/users`), data validation & normalizers |
+| 🎨 **Team Member** | **Prabhu** | Frontend UI development — athlete intake form, 7-day plan display page, responsive layout & design system (Tailwind v4, Anton/Archivo/JetBrains Mono fonts, volt-on-void palette) |
+| ⚙️ **Team Member** | **Sanjay Prabhakar** | Feedback loop engine & plan revision logic (`updateWorkoutPlanGemini`), local-engine fallback planner (`local-engine.ts`), resilience layer (truncated JSON auto-repair, Pro → Flash model fallbacks) |
+| 🛡️ **Team Member** | **Vetrivel** | Admin dashboard (`/admin`), user management & CRUD operations, API testing (curl + integration tests), project documentation & README maintenance |
+
+---
 
 **Train. Eat. Adapt.** FitBuddy is a full-stack AI personal trainer: it generates
 structured 7-day workout plans with **Gemini Pro**, delivers goal-aligned
@@ -11,7 +25,7 @@ nutrition tips with **Gemini Flash**, and **re-compiles your plan every time you
 give feedback** — with the original plan frozen in an archive and a full
 revision history.
 
-> 🔗 **Try it now → [https://3000-iflmarfbf92i07pzqezvm.e2b.app/](https://3000-iflmarfbf92i07pzqezvm.e2b.app/)**
+> 🔗 **Try it now → [https://fitbuddy.yourdomain.com](https://fitbuddy.yourdomain.com)**
 
 Built from the FitBuddy project documentation (FastAPI + Jinja2 + SQLite
 reference architecture), implemented here on the production-grade equivalent of
@@ -24,7 +38,7 @@ Drizzle ORM**.
 
 | Environment | URL |
 | --- | --- |
-| **Production** | [https://3000-iflmarfbf92i07pzqezvm.e2b.app/](https://3000-iflmarfbf92i07pzqezvm.e2b.app/) |
+| **Production** | [https://fitbuddy.yourdomain.com](https://fitbuddy.yourdomain.com) |
 | **Local dev** | `http://localhost:3000` |
 
 No sign-up required — enter an Athlete ID and start generating plans instantly.
@@ -197,7 +211,7 @@ curl -X DELETE http://localhost:3000/api/users/1
 
 ## Deploy your own
 
-Deployed on **[https://3000-iflmarfbf92i07pzqezvm.e2b.app/](https://3000-iflmarfbf92i07pzqezvm.e2b.app/)** using Vercel + Neon Postgres.
+Deployed on **[https://fitbuddy.yourdomain.com](https://fitbuddy.yourdomain.com)** using Vercel + Neon Postgres.
 
 ```bash
 # One-click deploy
@@ -207,5 +221,7 @@ npx vercel --prod
 ---
 
 <p align="center">
-  <a href="https://3000-iflmarfbf92i07pzqezvm.e2b.app/">🏋️ Open FitBuddy Live →</a>
+  Built with 💪 by <strong>Jude Rosary Immanuel</strong>, <strong>Shadrack Joseph</strong>, <strong>Prabhu</strong>, <strong>Sanjay Prabhakar</strong> & <strong>Vetrivel</strong>
+  <br><br>
+  <a href="https://fitbuddy.yourdomain.com">🏋️ Open FitBuddy Live →</a>
 </p>
