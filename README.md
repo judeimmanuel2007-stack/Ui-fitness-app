@@ -71,31 +71,31 @@ No sign-up required — enter an Athlete ID and start generating plans instantly
 ## Project structure
 
 .
-├── public/images/hero-gym.jpg        # Generated hero artwork
+├── public/images/hero-gym.jpg        
 ├── src/
 │   ├── app/
-│   │   ├── page.tsx                  # Landing + intake form  (= index.html)
-│   │   ├── plan/[code]/page.tsx      # Plan + tip + feedback (= result.html)
-│   │   ├── admin/page.tsx            # Registry / delete      (= all_users.html)
+│   │   ├── page.tsx                
+│   │   ├── plan/[code]/page.tsx      
+│   │   ├── admin/page.tsx            
 │   │   ├── not-found.tsx
-│   │   ├── globals.css               # Design system (Tailwind v4 tokens)
-│   │   ├── layout.tsx                # Fonts: Anton + Archivo + JetBrains Mono
+│   │   ├── globals.css               
+│   │   ├── layout.tsx                
 │   │   └── api/
-│   │       ├── generate/route.ts     # POST /api/generate
-│   │       ├── feedback/route.ts     # POST /api/feedback
-│   │       ├── users/[id]/route.ts   # DELETE /api/users/:id
-│   │       └── health/route.ts       # GET  /api/health
-│   ├── components/                   # PlanForm, FeedbackForm, DeleteUserButton,
-│   │                                 # SiteNav, Marquee, Reveal
+│   │       ├── generate/route.ts    
+│   │       ├── feedback/route.ts     
+│   │       ├── users/[id]/route.ts   
+│   │       └── health/route.ts      
+│   ├── components/                 
+│   │                                 
 │   ├── db/
-│   │   ├── index.ts                  # pg Pool + Drizzle client
-│   │   └── schema.ts                 # fitbuddy_users, fitbuddy_plans
+│   │   ├── index.ts                  
+│   │   └── schema.ts                 
 │   └── lib/
-│       ├── gemini.ts                 # Gemini REST client + prompts + JSON schema
-│       ├── fitness.ts                # Types, normalizers, lenient JSON parsing
-│       └── local-engine.ts           # Offline fallback planner
+│       ├── gemini.ts                 
+│       ├── fitness.ts                
+│       └── local-engine.ts           
 ├── drizzle.config.json
-├── .env                              # DATABASE_URL (+ GOOGLE_API_KEY you add)
+├── .env                             
 └── .env.example
 
 
