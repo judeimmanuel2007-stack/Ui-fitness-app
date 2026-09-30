@@ -1,5 +1,24 @@
 # FitBuddy — AI Fitness Plan Generator
 
+[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-fitbuddy.yourdomain.com-00e676?style=for-the-badge&logo=vercel&logoColor=white)](https://fitbuddy.yourdomain.com)
+[![Next.js](https://img.shields.io/badge/Next.js-15-black?style=flat-square&logo=nextdotjs)](https://nextjs.org)
+[![Gemini](https://img.shields.io/badge/Gemini-2.5-blue?style=flat-square&logo=google)](https://ai.google.dev)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-336791?style=flat-square&logo=postgresql)](https://postgresql.org)
+
+---
+
+## 👥 Team
+
+| Role | Name | Responsibilities |
+| --- | --- | --- |
+| 🏆 **Team Leader** | **Jude Rosary Immanuel** | Project architecture & system design, Gemini AI integration (`gemini.ts`), prompt engineering & JSON schema locking, code review, CI/CD & production deployment |
+| 💻 **Team Member** | **Shadrack Joseph** | Database schema design (Drizzle ORM + PostgreSQL), API route handlers (`/api/generate`, `/api/feedback`, `/api/users`), data validation & normalizers |
+| 🎨 **Team Member** | **Prabhu** | Frontend UI development — athlete intake form, 7-day plan display page, responsive layout & design system (Tailwind v4, Anton/Archivo/JetBrains Mono fonts, volt-on-void palette) |
+| ⚙️ **Team Member** | **Sanjay Prabhakar** | Feedback loop engine & plan revision logic (`updateWorkoutPlanGemini`), local-engine fallback planner (`local-engine.ts`), resilience layer (truncated JSON auto-repair, Pro → Flash model fallbacks) |
+| 🛡️ **Team Member** | **Vetrivel** | Admin dashboard (`/admin`), user management & CRUD operations, API testing (curl + integration tests), project documentation & README maintenance |
+
+# FitBuddy — AI Fitness Plan Generator
+
 [![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-3000-iflmarfbf92i07pzqezvm.e2b.app/-00e676?style=for-the-badge&logo=vercel&logoColor=white)](https://3000-iflmarfbf92i07pzqezvm.e2b.app/)
 [![Next.js](https://img.shields.io/badge/Next.js-15-black?style=flat-square&logo=nextdotjs)](https://nextjs.org)
 [![Gemini](https://img.shields.io/badge/Gemini-2.5-blue?style=flat-square&logo=google)](https://ai.google.dev)
