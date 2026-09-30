@@ -39,7 +39,7 @@ Drizzle ORM**.
 
 | Environment | URL |
 | --- | --- |
-| **Production** | [https://3000-iflmarfbf92i07pzqezvm.e2b.app/](https://drive.google.com/file/d/1ugm91Bb9ZtKBKuY7dKXVH68YCat2-4tZ/view?pli=1) |
+| **Production** [https://drive.google.com/file/d/1ugm91Bb9ZtKBKuY7dKXVH68YCat2-4tZ/view?pli=1](https://drive.google.com/file/d/1ugm91Bb9ZtKBKuY7dKXVH68YCat2-4tZ/view?pli=1) |
 | **Local dev** | `http://localhost:3000` |
 
 No sign-up required — enter an Athlete ID and start generating plans instantly.
