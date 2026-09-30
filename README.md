@@ -1,6 +1,6 @@
 # FitBuddy — AI Fitness Plan Generator
 
-[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-fitbuddy.yourdomain.com-00e676?style=for-the-badge&logo=vercel&logoColor=white)](https://fitbuddy.yourdomain.com)
+[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo- https://3000-iflmarfbf92i07pzqezvm.e2b.app/-00e676?style=for-the-badge&logo=vercel&logoColor=white)](https:// https://3000-iflmarfbf92i07pzqezvm.e2b.app/)
 [![Next.js](https://img.shields.io/badge/Next.js-15-black?style=flat-square&logo=nextdotjs)](https://nextjs.org)
 [![Gemini](https://img.shields.io/badge/Gemini-2.5-blue?style=flat-square&logo=google)](https://ai.google.dev)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-336791?style=flat-square&logo=postgresql)](https://postgresql.org)
